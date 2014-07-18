@@ -9,7 +9,7 @@ var Stock = require('../../app/models/stock');
 
 describe('Portfolio', function (){
   describe('constructor', function(){
-    it('should create a new portfolio of aggressive tech stocks', function(){
+    it('should create a new portfolio of tech stocks', function(){
       var tech = new Portfolio('Tech Portfolio');
 
       expect(tech).to.be.instanceof(Portfolio);
