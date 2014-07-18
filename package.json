@@ -1,0 +1,35 @@
+{
+  "name": "stocks",
+  "version": "0.0.0",
+  "description": "Stock Market App",
+  "main": "app/index.js",
+  "scripts": {
+    "test": "mocha test --recursive -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GLoganDR/stocks"
+  },
+  "author": "Logan Richardson <g.logan.richardson@gmail.com>",
+  "contributors": [
+    "Brian Hiatt <brian.hiatt41@gmail.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GLoganDR/stocks/issues"
+  },
+  "homepage": "https://github.com/GLoganDR/stocks",
+  "dependencies": {
+    "chalk": "^0.5.1",
+    "request": "^2.37.0",
+    "sync-prompt": "^0.4.1"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "jshint-stylish": "^0.4.0",
+    "mocha": "^1.20.1"
+  }
+}
