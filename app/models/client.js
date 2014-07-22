@@ -1,14 +1,75 @@
 'use strict';
 
 var Portfolio = require('./portfolio');
-//var Stock = require('./stock');//
+var Stock = require('./stock');
 
 function Client(name, cash){
   this.name = name;
   this.cash = parseFloat(cash);
-  this.portfolio = new Portfolio(name + '\'s portfolio');
+  this.portfolios = [];
 }
 
+Client.prototype.purchase = function(symbol, amount, name, cb){
+  var self = this;
+
+  Stock.getQuote(symbol, function(quote){
+    if(self.cash >= (quote * amount)){
+      self.cash -= (quote * amount);
+
+      var portfolio = Client.findPortfolio(self.portfolios, name);
+      if(!portfolio){
+        portfolio = new Portfolio(name);
+        self.portfolios.push(portfolio);
+      }
+      portfolio.add(symbol, amount, quote);
+    }
+
+    cb();
+  });
+};
+
+Client.prototype.sell = function(symbol, amount, name, cb){
+  var self = this;
+
+  var portfolio = Client.findPortfolio(self.portfolios, name);
+  if(portfolio){
+    var index = Portfolio.findStock(portfolio.stocks, symbol);
+    var stock = portfolio.stocks[index];
+    if(stock && (stock.count >= amount)){
+      Stock.getQuote(symbol, function(quote){
+      self.cash += (quote * amount);
+      stock.count -= amount;
+    cb();
+    });
+  }else{
+    cb();
+   }
+  }else{
+    cb();
+  }
+};
+
+Client.prototype.position = function(){
+  var position = 0;
+
+    for(var i = 0; i < this.portfolios.length; i++){
+      for(var j = 0; j < this.portfolios[i].stocks.length; j++){
+        position += (this.portfolios[i].stocks[j].count * this.portfolios[i].stocks[j].price);
+      }
+   }
+
+   return position;
+};
+
+Client.findPortfolio = function(portfolios, name){
+  for(var i = 0; i < portfolios.length; i++){
+    if(portfolios[i].name === name){
+return portfolios[i];
+    }
+  }
+
+return null;
+};
 
 
 
@@ -20,16 +81,6 @@ function Client(name, cash){
 
 
 
-// Private helper methods //
 
-// function findStock(stocks, symbol){
-//  for(var i = 0; i < stocks.length; i++){
-//    if(stocks[i].symbol === symbol.toUpperCase()){
-//  return i;
-//    }
-//  }
-
-//  return -1;
-//}
 
 module.exports = Client;
