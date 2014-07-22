@@ -3,9 +3,9 @@
 var Portfolio = require('./portfolio');
 var Stock = require('./stock');
 
-function Client(name, cash){
+function Client(name, deposit){
   this.name = name;
-  this.cash = parseFloat(cash);
+  this.cash = deposit;
   this.portfolios = [];
 }
 
@@ -51,7 +51,6 @@ Client.prototype.sell = function(symbol, amount, name, cb){
 
 Client.prototype.position = function(){
   var position = 0;
-
     for(var i = 0; i < this.portfolios.length; i++){
       for(var j = 0; j < this.portfolios[i].stocks.length; j++){
         position += (this.portfolios[i].stocks[j].count * this.portfolios[i].stocks[j].price);
